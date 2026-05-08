@@ -84,7 +84,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: clamp(0.5rem, 1.5vw, 0.9rem);
+            font-size: clamp(0.5rem, 2.5vw, 1.8rem);
         }
 
         thead {
@@ -113,7 +113,7 @@
 
         .day-name {
             display: block;
-            font-size: clamp(0.5rem, 1.3vw, 0.8rem);
+            font-size: clamp(0.55rem, 1.4vw, 0.85rem);
         }
 
         .ukepengar-header {
@@ -159,7 +159,7 @@
         }
 
         .chore-name {
-            font-size: clamp(0.5rem, 1.2vw, 0.75rem);
+            font-size: clamp(0.65rem, 1.6vw, 0.95rem);
             line-height: 1.2;
         }
 
@@ -236,6 +236,31 @@
             box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
         }
 
+        .reset-btn-small {
+            background: linear-gradient(135deg, #fb923c, #f97316);
+            color: white;
+            padding: clamp(0.4rem, 0.8vw, 0.6rem) clamp(1rem, 2.5vw, 1.6rem);
+            border: none;
+            border-radius: 0.6rem;
+            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+            white-space: nowrap;
+            min-width: fit-content;
+        }
+
+        .reset-btn-small:hover {
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+            transform: scale(1.05);
+        }
+
         .info-text {
             background-color: #fef08a;
             color: #78350f;
@@ -245,14 +270,24 @@
             font-size: clamp(0.75rem, 2vw, 0.95rem);
             text-align: center;
             margin-top: 1.5vw;
+            margin-bottom: 3vw;
             border: 2px solid #fbbf24;
             width: 100%;
-            max-width: 600px;
+            max-width: 750px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .info-text span {
+            white-space: nowrap;
+            flex: 1;
         }
 
         .criteria-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 750px;
             flex: 0 1 auto;
             order: 3;
         }
@@ -282,7 +317,7 @@
             padding: clamp(0.5rem, 1.2vw, 0.7rem);
             border-radius: 0.6rem;
             margin-bottom: 0.5rem;
-            font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+            font-size: clamp(0.75rem, 1.8vw, 0.95rem);
             font-weight: bold;
         }
 
@@ -385,7 +420,8 @@
                 </div>
 
                 <div class="info-text">
-                    🎯 Klikk på rutene for å få stjerner når oppgavene er gjort! 🌟
+                    <span>Klikk på rutene for å få stjerner når oppgavene er gjort! 🌟</span>
+                    <button class="reset-btn-small" onclick="resetWeek()">Tilbakestill ⭐</button>
                 </div>
 
                 <div class="criteria-container">
@@ -438,13 +474,26 @@
         function toggleCheck(day, chore) {
             const key = `${day}-${chore}`;
             checkedItems[key] = !checkedItems[key];
+            saveToLocalStorage();
             renderTable();
             checkCriteria();
         }
 
         function resetWeek() {
             checkedItems = {};
+            saveToLocalStorage();
             renderTable();
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('choreChecks', JSON.stringify(checkedItems));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('choreChecks');
+            if (saved) {
+                checkedItems = JSON.parse(saved);
+            }
         }
 
         function checkCriteria() {
@@ -545,6 +594,7 @@
         }
 
         // Initial render
+        loadFromLocalStorage();
         renderTable();
     </script>
 </body>
