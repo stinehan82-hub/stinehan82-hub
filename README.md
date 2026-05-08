@@ -2,7 +2,6 @@
 
 This is a test site
 
-<!DOCTYPE html>
 <html lang="no">
 <head>
     <meta charset="UTF-8">
