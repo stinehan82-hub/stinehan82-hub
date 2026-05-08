@@ -1,88 +1,404 @@
-## Hi there 👋
-
-This is a test site
-
 <html lang="no">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Min Superkul Ukeplan</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Min superkule ukeplan!</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #a5d6ff 0%, #d8b4f8 50%, #f5d4e6 100%);
+            min-height: 100vh;
+            padding: 2vw;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: max(2vw, 1rem);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3vw;
+        }
+
+        .header h1 {
+            font-size: clamp(1.5rem, 6vw, 3rem);
+            font-weight: 900;
+            background: linear-gradient(to right, #9333ea, #ec4899, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1vh;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 2vw;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .chart-container {
+            flex: 1;
+            min-width: 280px;
+            max-width: 900px;
+        }
+
+        .chart {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border: 4px solid #d8b4f8;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(0.5rem, 1.5vw, 0.9rem);
+        }
+
+        thead {
+            background: linear-gradient(to right, #a855f7, #ec4899, #fb923c);
+        }
+
+        th {
+            padding: clamp(0.3rem, 1.2vw, 0.8rem);
+            text-align: center;
+            color: white;
+            font-weight: 900;
+            white-space: nowrap;
+            border-right: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        th:first-child {
+            text-align: left;
+            border-right: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .day-emoji {
+            font-size: clamp(0.9rem, 3vw, 1.5rem);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .day-name {
+            display: block;
+            font-size: clamp(0.5rem, 1.3vw, 0.8rem);
+        }
+
+        .ukepengar-header {
+            background-color: #facc15 !important;
+            color: #7c2d12 !important;
+        }
+
+        .ukepengar-emoji {
+            font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+            display: block;
+            margin-top: 0.1rem;
+        }
+
+        tbody tr {
+            border-bottom: 2px solid #f3e8ff;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f3e8ff;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fce7f3;
+        }
+
+        td {
+            padding: clamp(0.3rem, 0.8vw, 0.7rem);
+            border-right: 3px solid #d8b4f8;
+            text-align: center;
+        }
+
+        td:first-child {
+            text-align: left;
+            border-right: 3px solid #d8b4f8;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .chore-emoji {
+            font-size: clamp(0.9rem, 3vw, 1.5rem);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .chore-name {
+            font-size: clamp(0.5rem, 1.2vw, 0.75rem);
+            line-height: 1.2;
+        }
+
+        button {
+            width: clamp(1.5rem, 4.5vw, 2.5rem);
+            height: clamp(1.5rem, 4.5vw, 2.5rem);
+            border: none;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            font-size: clamp(0.6rem, 2.2vw, 0.95rem);
+            font-weight: bold;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .checkbox-unchecked {
+            background: linear-gradient(135deg, #d1d5db, #e5e7eb);
+            color: #9ca3af;
+        }
+
+        .checkbox-checked {
+            background: linear-gradient(135deg, #4ade80, #84cc16);
+            color: white;
+            animation: bounce 0.6s ease;
+        }
+
+        .ukepengar-unchecked {
+            background: linear-gradient(135deg, #d1d5db, #e5e7eb);
+            color: #9ca3af;
+        }
+
+        .ukepengar-checked {
+            background: linear-gradient(135deg, #fcd34d, #f97316);
+            color: white;
+            animation: bounce 0.6s ease;
+        }
+
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
-        .animate-bounce {
-            animation: bounce 1s infinite;
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 1vw;
+            margin-top: 2vw;
+            flex-wrap: wrap;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #fb923c, #f87171);
+            color: white;
+            padding: clamp(0.6rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+            border-radius: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            font-weight: 900;
+        }
+
+        .reset-btn:hover {
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .info-text {
+            background-color: #fef08a;
+            color: #78350f;
+            padding: clamp(0.6rem, 2vw, 1rem);
+            border-radius: 1rem;
+            font-weight: bold;
+            font-size: clamp(0.75rem, 2vw, 0.95rem);
+            text-align: center;
+            margin-top: 1.5vw;
+            border: 2px solid #fbbf24;
+        }
+
+        .criteria-container {
+            width: 100%;
+            max-width: 280px;
+            flex: 0 1 auto;
+            order: 3;
+        }
+
+        .criteria-box {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border: 4px solid #d8b4f8;
+            padding: clamp(0.8rem, 2.5vw, 1.2rem);
+            position: sticky;
+            top: 2vw;
+        }
+
+        .criteria-box h2 {
+            font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+            font-weight: 900;
+            color: #6b21a8;
+            text-align: center;
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .criteria-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: clamp(0.5rem, 1.2vw, 0.7rem);
+            border-radius: 0.6rem;
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+            font-weight: bold;
+        }
+
+        .criteria-item:nth-child(odd) {
+            background-color: #f3e8ff;
+        }
+
+        .criteria-item:nth-child(even) {
+            background-color: #fce7f3;
+        }
+
+        .criteria-stars {
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
+            letter-spacing: 0.1em;
+        }
+
+        .criteria-final {
+            background: linear-gradient(135deg, #fef3c7, #fde047);
+            border: 2px solid #facc15;
+            border-radius: 0.8rem;
+            padding: clamp(0.5rem, 1.5vw, 0.7rem);
+            margin-top: 0.8rem;
+            text-align: center;
+            font-weight: 900;
+            font-size: clamp(0.65rem, 1.5vw, 0.8rem);
+            color: #78350f;
+            line-height: 1.3;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 3vw;
+                align-items: flex-start;
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+                gap: 1.5vw;
+            }
+
+            .chart-container {
+                order: 1;
+                width: 100%;
+            }
+
+            .criteria-container {
+                order: 2;
+                width: 100%;
+                max-width: none;
+            }
+
+            .criteria-box {
+                position: static;
+            }
+
+            th, td {
+                padding: clamp(0.4rem, 1.2vw, 0.7rem);
+            }
+
+            button {
+                width: clamp(1.8rem, 5.5vw, 2.5rem);
+                height: clamp(1.8rem, 5.5vw, 2.5rem);
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: clamp(1.2rem, 5vw, 1.8rem);
+            }
+
+            table {
+                font-size: 0.75rem;
+            }
+
+            th, td {
+                padding: 0.3rem 0.4rem;
+            }
+
+            button {
+                width: 1.8rem;
+                height: 1.8rem;
+                font-size: 0.85rem;
+            }
+
+            .chore-name {
+                font-size: 0.65rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="min-h-screen bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 p-6">
-        <div class="max-w-7xl mx-auto">
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <h1 class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 mb-2">
-                    🎪 Min superkule ukeplan! 🎪
-                </h1>
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>🎪 Min superkule ukeplan! 🎪</h1>
+        </div>
 
-            <div class="flex gap-8 items-stretch">
-                <!-- Chart container -->
-                <div class="flex-1">
-                    <!-- Chart -->
-                    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-purple-300">
-                        <div class="overflow-x-auto">
-                            <table class="w-full" id="choreTable">
-                                <!-- Header row will be inserted here -->
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Reset button -->
-                    <div class="flex justify-center mt-8">
-                        <button 
-                            onclick="resetWeek()"
-                            class="px-8 py-4 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 text-white font-black rounded-2xl shadow-xl transition-all transform hover:scale-110 text-lg"
-                        >
-                            🔄 TILBAKESTILL UKEN 🔄
-                        </button>
-                    </div>
-
-                    <!-- Info text -->
-                    <div class="text-center mt-8">
-                        <p class="text-lg font-bold text-purple-800 bg-yellow-200 rounded-2xl py-3 px-6 inline-block">
-                            🎯 Klikk på rutene for å få stjerner når oppgavene er gjort! 🌟
-                        </p>
-                    </div>
+        <div class="content-wrapper">
+            <div class="chart-container">
+                <div class="chart">
+                    <table id="choreTable">
+                        <!-- Table content inserted by JavaScript -->
+                    </table>
                 </div>
 
-                <!-- Criteria explanation -->
-                <div class="w-80 flex items-center">
-                    <div class="bg-white rounded-2xl shadow-lg p-6 border-4 border-purple-300 w-full">
-                        <h2 class="text-2xl font-black text-purple-700 mb-4 text-center">📋 Krav for<br>ukepenger:</h2>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between bg-purple-50 p-3 rounded-lg">
-                                <span class="text-base font-bold text-gray-800">🧸 Rydde leker</span>
-                                <span class="text-xl">⭐</span>
-                            </div>
-                            <div class="flex items-center justify-between bg-pink-50 p-3 rounded-lg">
-                                <span class="text-base font-bold text-gray-800">🍱 Matboksen</span>
-                                <span class="text-xl">⭐⭐⭐</span>
-                            </div>
-                            <div class="flex items-center justify-between bg-purple-50 p-3 rounded-lg">
-                                <span class="text-base font-bold text-gray-800">🎒 Sekken på knaggen</span>
-                                <span class="text-xl">⭐⭐⭐</span>
-                            </div>
-                            <div class="flex items-center justify-between bg-pink-50 p-3 rounded-lg">
-                                <span class="text-base font-bold text-gray-800">🍽️ Dekke på/av</span>
-                                <span class="text-xl">⭐⭐</span>
-                            </div>
-                        </div>
-                        <div class="mt-4 p-4 bg-yellow-100 rounded-lg border-2 border-yellow-400 text-center">
-                            <p class="text-base font-black text-yellow-900">Når alle krav er møtt → 💰 UKEPENGER! 💰</p>
-                        </div>
+                <div class="button-container">
+                    <button class="reset-btn" onclick="resetWeek()">🔄 TILBAKESTILL UKEN 🔄</button>
+                </div>
+
+                <div class="info-text">
+                    🎯 Klikk på rutene for å få stjerner når oppgavene er gjort! 🌟
+                </div>
+            </div>
+
+            <div class="criteria-container">
+                <div class="criteria-box">
+                    <h2>📋 Krav for ukepenger:</h2>
+                    <div class="criteria-item">
+                        <span>🧸 Rydde leker</span>
+                        <span class="criteria-stars">⭐</span>
+                    </div>
+                    <div class="criteria-item">
+                        <span>🍱 Matboksen</span>
+                        <span class="criteria-stars">⭐⭐⭐</span>
+                    </div>
+                    <div class="criteria-item">
+                        <span>🎒 Sekken på knaggen</span>
+                        <span class="criteria-stars">⭐⭐⭐</span>
+                    </div>
+                    <div class="criteria-item">
+                        <span>🍽️ Dekke på/av</span>
+                        <span class="criteria-stars">⭐⭐</span>
+                    </div>
+                    <div class="criteria-final">
+                        Når alle krav er møtt → 💰 UKEPENGER! 💰
                     </div>
                 </div>
             </div>
@@ -114,6 +430,11 @@ This is a test site
             checkedItems[key] = !checkedItems[key];
             renderTable();
             checkCriteria();
+        }
+
+        function resetWeek() {
+            checkedItems = {};
+            renderTable();
         }
 
         function checkCriteria() {
@@ -160,26 +481,21 @@ This is a test site
             }
         }
 
-        function resetWeek() {
-            checkedItems = {};
-            renderTable();
-        }
-
         function renderTable() {
             const table = document.getElementById('choreTable');
             let html = '';
 
             // Header row
-            html += '<thead><tr class="bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400">';
-            html += '<th class="px-6 py-6 text-left text-white font-black text-lg">OPPGAVER</th>';
+            html += '<thead><tr>';
+            html += '<th style="padding: clamp(0.5rem, 2vw, 1rem);">OPPGAVER</th>';
             
             days.forEach(day => {
                 const isLoerdag = day === 'Lørdag';
-                const bgClass = isLoerdag ? 'bg-yellow-400 text-yellow-900' : '';
-                html += `<th class="px-4 py-6 text-center text-white font-black whitespace-nowrap text-base ${bgClass}">
-                    <div class="text-3xl mb-2">${dayEmojis[day]}</div>
-                    <div>${day}</div>
-                    ${isLoerdag ? '<div class="text-xl mt-2">💰 UKEPENGER!</div>' : ''}
+                const headerClass = isLoerdag ? 'ukepengar-header' : '';
+                html += `<th class="${headerClass}">
+                    <span class="day-emoji">${dayEmojis[day]}</span>
+                    <span class="day-name">${day}</span>
+                    ${isLoerdag ? '<span class="ukepengar-emoji">💰 UKEPENGER!</span>' : ''}
                 </th>`;
             });
             
@@ -188,41 +504,26 @@ This is a test site
             // Body
             html += '<tbody>';
             chores.forEach((chore, choreIdx) => {
-                const bgClass = choreIdx % 2 === 0 ? 'bg-purple-50' : 'bg-pink-50';
-                html += `<tr class="${bgClass}">`;
-                html += `<td class="px-6 py-6 font-bold text-gray-800 border-r-4 border-purple-300">
-                    <div class="text-3xl mb-2">${chore.emoji}</div>
-                    <div class="text-lg">${chore.name}</div>
+                html += `<tr>`;
+                html += `<td>
+                    <span class="chore-emoji">${chore.emoji}</span>
+                    <span class="chore-name">${chore.name}</span>
                 </td>`;
 
                 days.forEach((day, dayIdx) => {
                     if (day === 'Lørdag') {
                         if (choreIdx === 0) {
                             const isChecked = checkedItems['Lørdag-ukepenger'] || false;
-                            const checkClass = isChecked 
-                                ? 'bg-gradient-to-br from-yellow-300 to-orange-400 text-white scale-110 animate-bounce' 
-                                : 'bg-gradient-to-br from-gray-200 to-gray-300 text-gray-500';
+                            const checkClass = isChecked ? 'ukepengar-checked' : 'ukepengar-unchecked';
                             const symbol = isChecked ? '💰' : '☐';
-                            html += `<td rowspan="4" class="px-4 py-6 text-center border-r-4 border-purple-200">
-                                <button onclick="toggleCheck('Lørdag', 'ukepenger')" 
-                                    class="mx-auto flex items-center justify-center w-14 h-14 rounded-2xl transition-all transform hover:scale-125 font-bold text-xl shadow-lg ${checkClass}">
-                                    ${symbol}
-                                </button>
-                            </td>`;
+                            html += `<td rowspan="4"><button onclick="event.stopPropagation()" class="${checkClass}" disabled style="cursor: default;">${symbol}</button></td>`;
                         }
                     } else {
                         const key = `${day}-${chore.name}`;
                         const isChecked = checkedItems[key] || false;
-                        const checkClass = isChecked 
-                            ? 'bg-gradient-to-br from-green-400 to-lime-500 text-white scale-110 animate-bounce' 
-                            : 'bg-gradient-to-br from-gray-200 to-gray-300 text-gray-500';
+                        const checkClass = isChecked ? 'checkbox-checked' : 'checkbox-unchecked';
                         const symbol = isChecked ? '⭐' : '☐';
-                        html += `<td class="px-4 py-6 text-center border-r-4 border-purple-200">
-                            <button onclick="toggleCheck('${day}', '${chore.name}')" 
-                                class="mx-auto flex items-center justify-center w-14 h-14 rounded-2xl transition-all transform hover:scale-125 font-bold text-xl shadow-lg ${checkClass}">
-                                ${symbol}
-                            </button>
-                        </td>`;
+                        html += `<td><button onclick="toggleCheck('${day}', '${chore.name}')" class="${checkClass}">${symbol}</button></td>`;
                     }
                 });
                 
@@ -238,17 +539,3 @@ This is a test site
     </script>
 </body>
 </html>
-<!--
-**stinehan82-hub/stinehan82-hub** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
