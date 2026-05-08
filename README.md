@@ -44,10 +44,11 @@
 
         .content-wrapper {
             display: flex;
+            flex-direction: column;
             gap: 2vw;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: flex-start;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
         }
 
         .chart-container {
@@ -231,7 +232,7 @@
 
         .criteria-container {
             width: 100%;
-            max-width: 280px;
+            max-width: 600px;
             flex: 0 1 auto;
             order: 3;
         }
@@ -242,8 +243,7 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
             border: 4px solid #d8b4f8;
             padding: clamp(0.8rem, 2.5vw, 1.2rem);
-            position: sticky;
-            top: 2vw;
+            position: static;
         }
 
         .criteria-box h2 {
@@ -312,11 +312,6 @@
             .criteria-container {
                 order: 2;
                 width: 100%;
-                max-width: none;
-            }
-
-            .criteria-box {
-                position: static;
             }
 
             th, td {
